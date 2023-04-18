@@ -1,3 +1,30 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": [
+    "next",
+    "next/core-web-vitals",
+    "prettier",
+    "plugin:prettier/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:jsx-a11y/recommended",
+    "prettier"
+  ],
+  "plugins": ["jsx-a11y", "prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "jsx-a11y/href-no-hash": ["off"],
+    "max-len": [
+      "warn",
+      {
+        "code": 260,
+        "tabWidth": 2,
+        "comments": 260,
+        "ignoreComments": false,
+        "ignoreTrailingComments": true,
+        "ignoreUrls": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreRegExpLiterals": true
+      }
+    ]
+  }
 }
