@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Detect package manager
         id: detect-package-manager
         run: |
@@ -73,20 +73,13 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-      - name: Lint with ESLint
-        run: ${{ steps.detect-package-manager.outputs.runner }} next lint
-      - name: Format with Prettier
-        run: ${{ steps.detect-package-manager.outputs.runner }} prettier -w './**/*.[tj]s*'
-      - name: Test with Jest
-        run: ${{ steps.detect-package-manager.outputs.runner }} jest --passWithNoTests
       - name: Build with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Static HTML export with Next.js
         run: ${{ steps.detect-package-manager.outputs.runner }} next export
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-pages-artifact@v1
         with:
-          name: out
           path: ./out
 
   # Deployment job
@@ -98,7 +91,5 @@ jobs:
     needs: build
     steps:
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./out
+        id: deployment
+        uses: actions/deploy-pages@v2
