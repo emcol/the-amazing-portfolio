@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "prettier": "prettier -w './**/*.[tj]s*'",
+    "prettier": "prettier -w '**/*.{js,jsx,ts,tsx,json,md}'",
+    "format-check": "prettier -c '**/*.{js,jsx,ts,tsx,json,md}'",
     "test": "jest --passWithNoTests"
   },
   "dependencies": {
