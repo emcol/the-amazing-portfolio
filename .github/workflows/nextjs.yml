@@ -105,6 +105,8 @@ jobs:
         run: npm ci
       - name: Build with Next.js # Runs `npm run build` to create an optimized production build of your Next.js application
         run: npm run build
+      - name: Static HTML export with Next.js
+        run: npm run export
       - name: Upload artifact
         # Uses the `upload-artifact` action to upload the `./out` directory (which contains the exported Next.js application)
         # as a workflow artifact, so it can be used by other jobs in this workflow
