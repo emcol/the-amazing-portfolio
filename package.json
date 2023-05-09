@@ -7,7 +7,8 @@
     "build": "next build",
     "export": "next export",
     "start": "next start",
-    "lint": "next lint",
+    "lint:next": "next lint",
+    "lint": "eslint .",
     "prettier": "prettier -w '**/*.{js,jsx,ts,tsx,json,md}'",
     "format-check": "prettier -c '**/*.{js,jsx,ts,tsx,json,md}'",
     "test": "jest --passWithNoTests"
@@ -20,11 +21,20 @@
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@types/react": "18.2.6",
+    "@typescript-eslint/eslint-plugin": "^5.59.5",
+    "@typescript-eslint/parser": "^5.59.5",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
     "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jest": "^27.2.1",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "jest": "^29.5.0",
-    "prettier": "^2.8.7"
+    "prettier": "^2.8.7",
+    "typescript": "^5.0.4"
   }
 }
