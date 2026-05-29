@@ -1,23 +1,27 @@
-# Use node:alpine as base image
-FROM node:alpine
+# --- Build stage -------------------------------------------------------------
+FROM node:22-alpine AS build
 
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Install dependencies from the lockfile for reproducible builds
 COPY package*.json ./
+RUN npm ci
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code
+# Copy the rest of the application code and build the static export
 COPY . .
-
-# Build the Next.js application
 RUN npm run build
 
-# Expose the port that the application will run on
+# --- Runtime stage -----------------------------------------------------------
+FROM node:22-alpine AS runner
+
+WORKDIR /app
+
+# `serve` ships a tiny static file server for the exported site
+RUN npm install -g serve
+
+# Copy only the static export produced by `next build` (output: 'export')
+COPY --from=build /app/out ./out
+
 EXPOSE 3000
 
-# Start the application
-CMD ["npm", "start"]
+CMD ["serve", "-s", "out", "-l", "3000"]
