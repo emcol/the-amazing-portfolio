@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { Bebas_Neue, Geist } from 'next/font/google';
+import CursorLoader from '@/components/CursorLoader';
 import './globals.css';
 
 const geistSans = Geist({
@@ -7,14 +8,16 @@ const geistSans = Geist({
   subsets: ['latin'],
 });
 
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const bebasNeue = Bebas_Neue({
+  variable: '--font-bebas-neue',
   subsets: ['latin'],
+  weight: '400',
 });
 
 export const metadata: Metadata = {
-  title: 'The Amazing Portfolio',
-  description: 'Personal portfolio',
+  title: 'Emanuele Colabello — Front-end Developer',
+  description:
+    'Front-end Developer specializing in React, crafting fast, expressive digital experiences. Based in Italy.',
 };
 
 export default function RootLayout({
@@ -24,8 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${geistSans.variable} ${bebasNeue.variable}`}>
         {children}
+        <CursorLoader />
       </body>
     </html>
   );
