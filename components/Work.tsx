@@ -91,18 +91,15 @@ function ProjectRow({ project }: ProjectRowProps) {
           {project.title}
         </span>
 
-        {/* Tags (desktop) */}
+        {/* Tags */}
         <span
           style={{
             fontSize: '0.75rem',
             color: hovered ? 'var(--color-background)' : 'var(--color-muted)',
-            display: 'none',
-            gap: '0.5rem',
             flexShrink: 0,
             zIndex: 1,
             transition: 'color 0.3s',
           }}
-          className="tags-desktop"
         >
           {project.tags.slice(0, 2).join(' · ')}
         </span>
