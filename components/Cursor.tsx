@@ -36,14 +36,22 @@ export default function Cursor() {
       mouseY.set(e.clientY - 20);
     };
 
+    // e.target may be a non-Element node (e.g. a text node), which has no
+    // `.closest`. Resolve to the nearest Element before querying.
+    const isOverGrowTarget = (e: MouseEvent) => {
+      const node = e.target as Node | null;
+      const el = node instanceof Element ? node : (node?.parentElement ?? null);
+      return el?.closest('[data-cursor-grow]') != null;
+    };
+
     const onEnter = (e: MouseEvent) => {
-      if ((e.target as HTMLElement).closest('[data-cursor-grow]')) {
+      if (isOverGrowTarget(e)) {
         setGrowing(true);
       }
     };
 
     const onLeave = (e: MouseEvent) => {
-      if ((e.target as HTMLElement).closest('[data-cursor-grow]')) {
+      if (isOverGrowTarget(e)) {
         setGrowing(false);
       }
     };
