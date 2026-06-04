@@ -1,12 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import SectionHeader from '@/components/SectionHeader';
 import { skills } from '@/lib/data';
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
-const revealProps = (delay = 0) => ({
-  initial: { opacity: 0, y: 30 },
+const reveal = (delay = 0) => ({
+  initial: { opacity: 0, y: 28 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: '-80px' } as const,
   transition: { duration: 0.8, delay, ease },
@@ -15,110 +16,125 @@ const revealProps = (delay = 0) => ({
 /**
  * Personal introduction section.
  *
- * Two-column layout: bio text on the left, skills list on the right.
- * Each element fades up as it enters the viewport.
+ * A lead statement sets the tone, a supporting paragraph adds context, and
+ * a labelled skills list anchors the right column. The lead is the largest
+ * body type on the page, establishing a clear reading hierarchy.
  */
 export default function About() {
   return (
-    <section
-      id="about"
-      style={{
-        padding: 'clamp(6rem, 12vw, 14rem) clamp(1.5rem, 5vw, 5rem)',
-        borderTop: '1px solid var(--color-border)',
-      }}
-    >
-      {/* Section label */}
-      <motion.p
-        {...revealProps(0)}
-        style={{
-          fontSize: '0.6875rem',
-          letterSpacing: '0.15em',
-          textTransform: 'uppercase',
-          color: 'var(--color-muted)',
-          marginBottom: '3rem',
-        }}
-      >
-        About
-      </motion.p>
+    <section id="about" className="section">
+      <div className="shell">
+        <SectionHeader index="01" label="About" />
 
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 30ch), 1fr))',
-          gap: 'clamp(3rem, 6vw, 8rem)',
-          alignItems: 'start',
-        }}
-      >
-        {/* Bio */}
         <div
-          style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}
-        >
-          <motion.p
-            {...revealProps(0.1)}
-            style={{
-              fontSize: 'clamp(1rem, 1.5vw, 1.25rem)',
-              lineHeight: 1.7,
-              color: 'var(--color-text)',
-            }}
-          >
-            I&apos;m a front-end developer based in Italy, currently building
-            digital experiences at{' '}
-            <span style={{ color: 'var(--color-accent)' }}>Nextar S.r.l.</span>{' '}
-            — a multi-brand media platform powering Italian digital newspapers.
-            My work lives at the intersection of engineering precision and
-            visual craft.
-          </motion.p>
-
-          <motion.p
-            {...revealProps(0.25)}
-            style={{
-              fontSize: 'clamp(0.9rem, 1.2vw, 1.0625rem)',
-              lineHeight: 1.8,
-              color: 'var(--color-muted)',
-            }}
-          >
-            I started as a junior developer at 21iLab, where I learned that
-            clean code and thoughtful design are inseparable. Today I specialise
-            in React and TypeScript, with a particular interest in animation,
-            performance, and the kind of details users feel but rarely notice.
-          </motion.p>
-        </div>
-
-        {/* Skills */}
-        <motion.ul
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-80px' }}
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.06 } },
+          style={{
+            display: 'grid',
+            gridTemplateColumns:
+              'repeat(auto-fit, minmax(min(100%, 32ch), 1fr))',
+            gap: 'clamp(2.5rem, 6vw, 8rem)',
+            alignItems: 'start',
           }}
-          style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}
         >
-          {skills.map((skill) => (
-            <motion.li
-              key={skill}
-              variants={{
-                hidden: { opacity: 0, y: 16 },
-                visible: {
-                  opacity: 1,
-                  y: 0,
-                  transition: { duration: 0.5, ease },
-                },
-              }}
+          {/* Bio */}
+          <div
+            style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}
+          >
+            <motion.p
+              {...reveal(0)}
               style={{
-                padding: '0.375rem 0.875rem',
-                border: '1px solid var(--color-border)',
-                borderRadius: '999px',
-                fontSize: '0.8125rem',
-                color: 'var(--color-muted)',
-                letterSpacing: '0.04em',
+                fontSize: 'clamp(1.5rem, 3vw, 2.25rem)',
+                lineHeight: 1.3,
+                letterSpacing: '-0.01em',
+                maxWidth: '20ch',
+                textWrap: 'balance',
               }}
             >
-              {skill}
-            </motion.li>
-          ))}
-        </motion.ul>
+              Engineering precision, met with visual craft.
+            </motion.p>
+
+            <motion.p
+              {...reveal(0.1)}
+              style={{
+                fontSize: 'clamp(1rem, 1.4vw, 1.1875rem)',
+                lineHeight: 1.7,
+                color: 'var(--color-text)',
+                maxWidth: '58ch',
+              }}
+            >
+              I&apos;m a front-end developer based in Italy, currently building
+              digital experiences at{' '}
+              <span style={{ color: 'var(--color-accent)' }}>
+                Nextar S.r.l.
+              </span>{' '}
+              — a multi-brand platform powering Italian digital newspapers.
+            </motion.p>
+
+            <motion.p
+              {...reveal(0.2)}
+              style={{
+                fontSize: 'clamp(0.9375rem, 1.2vw, 1.0625rem)',
+                lineHeight: 1.8,
+                color: 'var(--color-muted)',
+                maxWidth: '58ch',
+              }}
+            >
+              I started out at 21iLab, where I learned that clean code and
+              thoughtful design are inseparable. Today I specialise in React and
+              TypeScript, with a particular interest in animation, performance,
+              and the details users feel but rarely notice.
+            </motion.p>
+          </div>
+
+          {/* Skills */}
+          <div>
+            <motion.p
+              {...reveal(0.1)}
+              style={{
+                fontSize: '0.625rem',
+                letterSpacing: '0.18em',
+                textTransform: 'uppercase',
+                color: 'var(--color-muted)',
+                marginBottom: '1.25rem',
+              }}
+            >
+              Toolkit
+            </motion.p>
+            <motion.ul
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: '-80px' }}
+              variants={{
+                hidden: {},
+                visible: { transition: { staggerChildren: 0.05 } },
+              }}
+              style={{ display: 'flex', flexWrap: 'wrap', gap: '0.625rem' }}
+            >
+              {skills.map((skill) => (
+                <motion.li
+                  key={skill}
+                  variants={{
+                    hidden: { opacity: 0, y: 14 },
+                    visible: {
+                      opacity: 1,
+                      y: 0,
+                      transition: { duration: 0.5, ease },
+                    },
+                  }}
+                  style={{
+                    padding: '0.4rem 0.9rem',
+                    border: '1px solid var(--color-border)',
+                    borderRadius: '999px',
+                    fontSize: '0.8125rem',
+                    color: 'var(--color-muted)',
+                    letterSpacing: '0.03em',
+                  }}
+                >
+                  {skill}
+                </motion.li>
+              ))}
+            </motion.ul>
+          </div>
+        </div>
       </div>
     </section>
   );

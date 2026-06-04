@@ -2,19 +2,21 @@
 
 import { motion } from 'framer-motion';
 
+const links = [
+  { label: 'About', href: '#about' },
+  { label: 'Work', href: '#work' },
+  { label: 'Contact', href: '#contact' },
+];
+
 /**
  * Fixed top navigation bar.
  *
- * Fades in 0.8s after page load, giving the Hero animation time to play.
- * Anchor links smooth-scroll to `#about`, `#work`, and `#contact`.
+ * Fades in 0.8s after load, after the Hero has animated. Uses
+ * `mix-blend-mode: difference` so the label stays legible over both the
+ * dark sections and the bright feature image. Hover/focus styling is
+ * CSS-driven (`.link-muted`) for smoothness and keyboard accessibility.
  */
 export default function Nav() {
-  const links = [
-    { label: 'About', href: '#about' },
-    { label: 'Work', href: '#work' },
-    { label: 'Contact', href: '#contact' },
-  ];
-
   return (
     <motion.nav
       initial={{ opacity: 0, y: -20 }}
@@ -29,12 +31,13 @@ export default function Nav() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '1.5rem clamp(1.5rem, 5vw, 5rem)',
+        padding: '1.25rem var(--gutter)',
         mixBlendMode: 'difference',
       }}
     >
       <a
         href="#"
+        aria-label="Back to top"
         data-cursor-grow
         style={{
           fontFamily: 'var(--font-display)',
@@ -43,30 +46,26 @@ export default function Nav() {
           color: 'var(--color-text)',
         }}
       >
-        EC
+        EC<span style={{ color: 'var(--color-accent)' }}>.</span>
       </a>
 
-      <ul style={{ display: 'flex', gap: '2rem' }}>
+      <ul
+        style={{
+          display: 'flex',
+          gap: 'clamp(1.1rem, 4vw, 2.25rem)',
+        }}
+      >
         {links.map(({ label, href }) => (
           <li key={href}>
             <a
               href={href}
               data-cursor-grow
+              className="link-muted"
               style={{
                 fontSize: '0.8125rem',
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
-                color: 'var(--color-muted)',
-                transition: 'color 0.3s',
               }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLAnchorElement).style.color =
-                  'var(--color-text)')
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLAnchorElement).style.color =
-                  'var(--color-muted)')
-              }
             >
               {label}
             </a>

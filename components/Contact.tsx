@@ -2,16 +2,27 @@
 
 import { useRef } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
+import SectionHeader from '@/components/SectionHeader';
 
 const EMAIL = 'emanuele.colabello@gmail.com';
 const LINKEDIN = 'https://www.linkedin.com/in/emanuele-colabello-b449a291';
 const GITHUB = 'https://github.com/emcol';
 
+const ease = [0.16, 1, 0.3, 1] as const;
+
+const reveal = (delay = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: '-60px' } as const,
+  transition: { duration: 0.7, delay, ease },
+});
+
 /**
  * Final call-to-action section.
  *
- * Features a large display headline, a magnetic email link that floats
- * subtly toward the cursor, and social icon links.
+ * A large display headline, a magnetic email link that drifts toward the
+ * cursor (pointer-fine only; the underlying anchor wraps safely on mobile),
+ * and social links. Hover styling is CSS-driven for fluidity.
  */
 export default function Contact() {
   const emailRef = useRef<HTMLAnchorElement>(null);
@@ -25,134 +36,92 @@ export default function Contact() {
     if (!rect) return;
     const dx = e.clientX - (rect.left + rect.width / 2);
     const dy = e.clientY - (rect.top + rect.height / 2);
-    x.set(Math.max(-14, Math.min(14, dx * 0.25)));
-    y.set(Math.max(-14, Math.min(14, dy * 0.25)));
+    x.set(Math.max(-14, Math.min(14, dx * 0.2)));
+    y.set(Math.max(-10, Math.min(10, dy * 0.2)));
   };
 
-  const handleMouseLeave = () => {
+  const resetMagnet = () => {
     x.set(0);
     y.set(0);
   };
 
   return (
-    <section
-      id="contact"
-      style={{
-        padding: 'clamp(6rem, 12vw, 14rem) clamp(1.5rem, 5vw, 5rem)',
-        borderTop: '1px solid var(--color-border)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '3rem',
-      }}
-    >
-      {/* Headline */}
-      <motion.h2
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        style={{
-          fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(3.5rem, 9vw, 10rem)',
-          lineHeight: 0.9,
-          letterSpacing: '-0.01em',
-        }}
+    <section id="contact" className="section">
+      <div
+        className="shell"
+        style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}
       >
-        LET&apos;S BUILD
-        <br />
-        <span style={{ color: 'var(--color-accent)' }}>SOMETHING.</span>
-      </motion.h2>
+        <SectionHeader index="03" label="Contact" />
 
-      {/* Sub-text */}
-      <motion.p
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-        style={{ color: 'var(--color-muted)', fontSize: '1rem' }}
-      >
-        Open to new opportunities and interesting projects.
-      </motion.p>
-
-      {/* Email — magnetic */}
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <motion.a
-          ref={emailRef}
-          href={`mailto:${EMAIL}`}
-          data-cursor-grow
-          onMouseMove={handleMouseMove}
+        <motion.h2
+          {...reveal(0)}
+          transition={{ duration: 0.9, ease }}
           style={{
-            translateX: springX,
-            translateY: springY,
-            display: 'inline-block',
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(1.5rem, 3.5vw, 3.5rem)',
-            letterSpacing: '0.01em',
-            borderBottom: '2px solid var(--color-border)',
-            paddingBottom: '0.25rem',
-            transition: 'border-color 0.3s, color 0.3s',
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.borderColor =
-              'var(--color-accent)';
-            (e.currentTarget as HTMLAnchorElement).style.color =
-              'var(--color-accent)';
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLAnchorElement).style.borderColor =
-              'var(--color-border)';
-            (e.currentTarget as HTMLAnchorElement).style.color =
-              'var(--color-text)';
-            handleMouseLeave();
+            fontSize: 'clamp(3rem, 9vw, 10rem)',
+            lineHeight: 0.88,
+            letterSpacing: '-0.01em',
           }}
         >
-          {EMAIL}
-        </motion.a>
-      </motion.div>
+          Let&apos;s build
+          <br />
+          <span style={{ color: 'var(--color-accent)' }}>something.</span>
+        </motion.h2>
 
-      {/* Social links */}
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-40px' }}
-        transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        style={{ display: 'flex', gap: '2rem' }}
-      >
-        {[
-          { label: 'GitHub', href: GITHUB },
-          { label: 'LinkedIn', href: LINKEDIN },
-        ].map(({ label, href }) => (
-          <a
-            key={label}
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
+        <motion.p
+          {...reveal(0.1)}
+          style={{
+            color: 'var(--color-muted)',
+            fontSize: 'clamp(1rem, 1.4vw, 1.125rem)',
+            maxWidth: '40ch',
+          }}
+        >
+          Open to new opportunities and collaborations. The fastest way to reach
+          me is email.
+        </motion.p>
+
+        {/* Email — magnetic on pointer-fine, plain anchor on touch */}
+        <motion.div {...reveal(0.2)}>
+          <motion.a
+            ref={emailRef}
+            href={`mailto:${EMAIL}`}
             data-cursor-grow
-            style={{
-              fontSize: '0.8125rem',
-              letterSpacing: '0.12em',
-              textTransform: 'uppercase',
-              color: 'var(--color-muted)',
-              transition: 'color 0.3s',
-            }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.color =
-                'var(--color-text)')
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLAnchorElement).style.color =
-                'var(--color-muted)')
-            }
+            className="email-link"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={resetMagnet}
+            style={{ x: springX, y: springY }}
           >
-            {label} ↗
-          </a>
-        ))}
-      </motion.div>
+            {EMAIL}
+          </motion.a>
+        </motion.div>
+
+        {/* Social links */}
+        <motion.div
+          {...reveal(0.3)}
+          style={{ display: 'flex', gap: '1.75rem', flexWrap: 'wrap' }}
+        >
+          {[
+            { label: 'GitHub', href: GITHUB },
+            { label: 'LinkedIn', href: LINKEDIN },
+          ].map(({ label, href }) => (
+            <a
+              key={label}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor-grow
+              className="link-muted"
+              style={{
+                fontSize: '0.8125rem',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+              }}
+            >
+              {label} ↗
+            </a>
+          ))}
+        </motion.div>
+      </div>
     </section>
   );
 }
