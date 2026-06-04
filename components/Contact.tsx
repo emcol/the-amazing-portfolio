@@ -2,7 +2,6 @@
 
 import { useRef } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
-import SectionHeader from '@/components/SectionHeader';
 
 const EMAIL = 'emanuele.colabello@gmail.com';
 const LINKEDIN = 'https://www.linkedin.com/in/emanuele-colabello-b449a291';
@@ -51,8 +50,6 @@ export default function Contact() {
         className="shell"
         style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}
       >
-        <SectionHeader index="03" label="Contact" />
-
         <motion.h2
           {...reveal(0)}
           transition={{ duration: 0.9, ease }}
