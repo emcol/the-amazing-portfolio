@@ -49,7 +49,7 @@ jobs:
         run: npm run lint
       - name: Prettier Check
         run: npm run format-check
-      - name: Run tests
+      - name: Run tests (Vitest)
         run: npm test
 
   build:
