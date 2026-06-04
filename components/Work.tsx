@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import SectionHeader from '@/components/SectionHeader';
 import { projects, type Project } from '@/lib/data';
 
 const rowVariants = {
@@ -71,8 +70,6 @@ export default function Work() {
   return (
     <section id="work" className="section">
       <div className="shell">
-        <SectionHeader index="02" label="Selected Work" />
-
         <motion.h2
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}

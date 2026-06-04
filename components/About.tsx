@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import SectionHeader from '@/components/SectionHeader';
 import { skills } from '@/lib/data';
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -24,8 +23,6 @@ export default function About() {
   return (
     <section id="about" className="section">
       <div className="shell">
-        <SectionHeader index="01" label="About" />
-
         <div
           style={{
             display: 'grid',
