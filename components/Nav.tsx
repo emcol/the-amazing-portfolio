@@ -12,9 +12,9 @@ const links = [
  * Fixed top navigation bar.
  *
  * Fades in 0.8s after load, after the Hero has animated. Uses
- * `mix-blend-mode: difference` so the label stays legible over both the
- * dark sections and the bright feature image. Hover/focus styling is
- * CSS-driven (`.link-muted`) for smoothness and keyboard accessibility.
+ * `mix-blend-mode: difference` so the labels stay legible over any
+ * background. Hover/focus styling is CSS-driven (`.link-muted`) for
+ * smoothness and keyboard accessibility.
  */
 export default function Nav() {
   return (
@@ -52,21 +52,12 @@ export default function Nav() {
       <ul
         style={{
           display: 'flex',
-          gap: 'clamp(1.1rem, 4vw, 2.25rem)',
+          gap: 'clamp(1.25rem, 4vw, 2.5rem)',
         }}
       >
         {links.map(({ label, href }) => (
           <li key={href}>
-            <a
-              href={href}
-              data-cursor-grow
-              className="link-muted"
-              style={{
-                fontSize: '0.8125rem',
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-              }}
-            >
+            <a href={href} data-cursor-grow className="link-muted label-mono">
               {label}
             </a>
           </li>

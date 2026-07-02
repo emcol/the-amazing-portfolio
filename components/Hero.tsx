@@ -18,9 +18,17 @@ const rise = {
 
 const fade = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.8 } },
+  visible: { opacity: 1, transition: { duration: 0.8, delay: 0.5 } },
 };
 
+/**
+ * Full-viewport opening section.
+ *
+ * The name is the design: two oversized display lines, the first solid,
+ * the second hollow (outline stroke) — a single typographic gesture with
+ * no competing elements. A hairline base row carries the tagline and the
+ * scroll cue. Words rise on load with a staggered spring.
+ */
 export default function Hero() {
   return (
     <motion.section
@@ -33,7 +41,7 @@ export default function Hero() {
         flexDirection: 'column',
         justifyContent: 'flex-end',
         padding:
-          'calc(var(--gutter) + 4.5rem) var(--gutter) clamp(2.5rem, 5vw, 4.5rem)',
+          'calc(var(--gutter) + 4.5rem) var(--gutter) clamp(2rem, 4vw, 3.5rem)',
         position: 'relative',
       }}
     >
@@ -41,27 +49,28 @@ export default function Hero() {
       <h1
         style={{
           fontFamily: 'var(--font-display)',
-          fontSize: 'clamp(3.5rem, 13vw, 13rem)',
+          fontSize: 'clamp(3.25rem, 14.5vw, 15rem)',
           lineHeight: 0.88,
-          letterSpacing: '-0.01em',
+          letterSpacing: '0.005em',
         }}
       >
-        {['EMANUELE', 'COLABELLO'].map((word, i) => (
-          <span key={word} style={{ display: 'block', overflow: 'hidden' }}>
-            <motion.span
-              variants={rise}
-              style={{
-                display: 'block',
-                color: i === 1 ? 'var(--color-muted)' : 'var(--color-text)',
-              }}
-            >
-              {word}
-            </motion.span>
-          </span>
-        ))}
+        <span style={{ display: 'block', overflow: 'hidden' }}>
+          <motion.span variants={rise} style={{ display: 'block' }}>
+            EMANUELE
+          </motion.span>
+        </span>
+        <span style={{ display: 'block', overflow: 'hidden' }}>
+          <motion.span
+            variants={rise}
+            className="outline-text"
+            style={{ display: 'block' }}
+          >
+            COLABELLO
+          </motion.span>
+        </span>
       </h1>
 
-      {/* Tagline + scroll cue */}
+      {/* Base row: tagline + scroll cue */}
       <motion.div
         variants={fade}
         style={{
@@ -69,8 +78,8 @@ export default function Hero() {
           flexWrap: 'wrap',
           alignItems: 'baseline',
           justifyContent: 'space-between',
-          gap: '1.5rem 3rem',
-          marginTop: '2rem',
+          gap: '1.25rem 3rem',
+          marginTop: 'clamp(1.75rem, 4vw, 3rem)',
           paddingTop: '1.5rem',
           borderTop: '1px solid var(--color-border)',
         }}
@@ -91,21 +100,19 @@ export default function Hero() {
         <a
           href="#about"
           aria-label="Scroll to content"
-          className="link-muted"
+          data-cursor-grow
+          className="link-muted label-mono"
           style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: '0.5rem',
-            fontSize: '0.6875rem',
-            letterSpacing: '0.18em',
-            textTransform: 'uppercase',
             flexShrink: 0,
           }}
         >
           Scroll
           <motion.span
             aria-hidden
-            animate={{ y: [0, 6, 0] }}
+            animate={{ y: [0, 5, 0] }}
             transition={{ duration: 1.4, repeat: Infinity, ease: 'easeInOut' }}
           >
             ↓
